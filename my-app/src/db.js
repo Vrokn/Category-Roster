@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const app = express();
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/mongo-1', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/movies', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.on("error", function(e) { console.error(e); });
+//content-type application/json;charset=utf-8
 
-const UsersSchema = new mongoose.Schema({
-  name: { type: String },
+const MoviesSchema = new mongoose.Schema({
+  title: { type: String },
   email: { type: String },
   password: { type: String }
 });

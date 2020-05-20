@@ -36,9 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.container {
+  align-items: center;
+}
 
 ul {
-  width: 428px;
+  width: 550px;
   margin: 0 auto;
   text-align: left;
 }
@@ -46,25 +49,34 @@ ul {
 ul li {
   border-bottom: 1px solid #ddd;
   padding: 10px;
-  overflow: hidden;
+  overflow: hidden;  
 }
 
 ul li img {
-  width:60px;
-  float:left;
-  border:none;
+  width: 60px;
+  float: left;
+  border: none;
 }
 
 ul li p {
   margin-left: 75px;
   padding-top: 12px;
-  color:#6e7a7f;
+  color: #6e7a7f;
 }
+
 body {
+  background-color: rgb(17, 17, 17);
+  color: rgb(216, 216, 216);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p a {
+  color: #6e7a7f;
+}
+
+svg {
+  padding: 2px;
 }
