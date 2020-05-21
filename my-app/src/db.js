@@ -1,6 +1,6 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
 const app = express();
 mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/movies', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.on("error", function(e) { console.error(e); });
@@ -8,10 +8,17 @@ mongoose.connection.on("error", function(e) { console.error(e); });
 
 const MoviesSchema = new mongoose.Schema({
   title: { type: String },
-  email: { type: String },
-  password: { type: String }
+  genres: { type: Array },
+  score: { type: Number },
+  overview: { type: String },
+  watched: { type: Boolean },
+  favorite: { type: Boolean },
+  queue: { type: Boolean },
+  poster_path: { type: String },
+  backdrop_path: { type: String }, 
 });
-const Users = mongoose.model("Users", UsersSchema);
+const Movies = mongoose.model("Movies", UsersSchema);
+
 
 app.use(express.json());
 app.use(function(req, res, next) {
@@ -19,20 +26,26 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, './src')));
 
-app.post("/register", async (req, res) => { //POST /register - crea al usuario en MongoDB.
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = bcrypt.hashSync(req.body.password, 10);
-  console.log(req.body);
-  const entrie = new Users({ name:name, email:email, password:password });
-  await entrie.save();
-  res.send(200);
+// An api endpoint that returns a short list of items
+app.get('https://api.themoviedb.org/3/movie/popular?api_key=9ebb3ffadcb7802418b60d473c655910', (req,res) => {
+    res.json();
+    console.log('Sent list of items');
 });
 
-app.get("/", async (req, res) => { //GET / - muestra la lista de usuarios registrados.
-  const user = await Users.find();
-     res.send(JSON.stringify(user));
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/public/index.html'));
 });
+
+
+app.get("/#home", async (req, res) => { //GET / - muestra la lista de usuarios registrados.
+  const movie = await Movies.find();
+     res.send(JSON.stringify(movie));
+});
+
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log("Listening on port 3030 ..."));
  
-app.listen(3030, () => console.log("Listening on port 3030 ..."));

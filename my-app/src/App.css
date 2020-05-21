@@ -36,6 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
 .container {
   align-items: center;
 }
@@ -49,7 +50,7 @@ ul {
 ul li {
   border-bottom: 1px solid #ddd;
   padding: 10px;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
 ul li img {
@@ -58,7 +59,7 @@ ul li img {
   border: none;
 }
 
-ul li p {
+ul li h6 {
   margin-left: 75px;
   padding-top: 12px;
   color: #6e7a7f;
@@ -73,7 +74,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-p a {
+h6 a {
   color: #6e7a7f;
 }
 
