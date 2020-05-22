@@ -1,73 +1,33 @@
 import React from "react";
 import icons from './icons'
-import { Component } from "react";
 import { Badge } from 'react-bootstrap'
 
 
-export default class Movie extends Component {
-    constructor(props) {
-        super(props)
-        this.apikey = '9ebb3ffadcb7802418b60d473c655910';
-        this.base = 'https://api.themoviedb.org/3/';
-        this.imagebase = 'https://image.tmdb.org/t/p/w500/';
-
-        this.state = {
-            genres: [],
-            list: [],
-            watched: false,
-            favorite: false,
-            queue: false
-        }
-    }
-    componentDidMount() {
-        fetch(`${this.base}movie/popular?api_key=${this.apikey}`).then((response) => {
-            return response.json();
-        }).then((data) => {
-            this.setState({ list: data.results })
-        }).catch(function (error) {
-            console.log(error);
-        });
-
-        fetch(`${this.base}genre/movie/list?api_key=${this.apikey}`).then((response) => {
-            return response.json();
-        }).then((data) => {
-            this.setState({ genres: data.genres })
-        }).catch(function (error) {
-            console.log(error);
-        });
-    };
-
-    //({ title, poster_path, imagebase, watched, favorite, queue, onPress, ...rest })
-    render() {
-        const { state } = this;
-        const { watched, favorite, queue, genres, list } = state;
-        const { title, imagebase, poster_path, genre_ids } = this.props
-
-        let filteredTerms = genres.filter((data) =>{
-            return genre_ids.includes(data.id)
-        })
-       
-        return (
-            <li>
-                <a href={`#${title}`}><img src={poster_path ? `${imagebase}${poster_path}` : 'https://es.zenit.org/wp-content/uploads/2018/05/no-image-icon.png'}
-                    alt={title} />
-                </a>
-                <div class="container">
-                    <h6>
-                        <div class="row">
-                            <div class="col">
-                                <a href={`#${title}`}>{title}</a>
-                            </div>
-                            <div class="col col-lg-auto row">
-                                <div onClick={() => this.setState({ watched: !watched })}>{watched ? icons.eyeFill : icons.eye}</div>
-                                <div onClick={() => this.setState({ favorite: !favorite })}>{favorite ? icons.heartFill : icons.heart}</div>
-                                <div onClick={() => this.setState({ queue: !queue })}>{queue ? icons.clockFill : icons.clock}</div>
-                            </div>                            
+export default function Movie({ title, imagebase, poster_path, genre_ids, id, onWatchedClick, onFavoriteClick, onQueueClick, watched, favorite, queue, genres, selectMovie }) {
+    let filteredTerms = genres.filter((data) => {
+        return genre_ids.includes(data.id)
+    })
+    return (
+        <li onClick={() => selectMovie(id)}>
+            <a href={`#${title}`}><img src={poster_path ? `${imagebase}${poster_path}` : 'https://es.zenit.org/wp-content/uploads/2018/05/no-image-icon.png'}
+                alt={title} />
+            </a>
+            <div class="container">
+                <h6>
+                    <div class="row">
+                        <div class="col">
+                            <a href={`#${title}`}>{title}</a>
                         </div>
-                    </h6>      
-                    <div class="col-auto row offset-1 ">{filteredTerms.map((post) => <Badge variant="secondary">{post.name}{' '}</Badge> )}</div>              
-                </div>
-            </li >
-        );
-    }
+                        <div class="col col-lg-auto row">
+                            <div onClick={() => onWatchedClick({ watched: !watched })}>{watched ? icons.eyeFill : icons.eye}</div>
+                            <div onClick={() => onFavoriteClick({ favorite: !favorite })}>{favorite ? icons.heartFill : icons.heart}</div>
+                            <div onClick={() => onQueueClick({ queue: !queue })}>{queue ? icons.clockFill : icons.clock}</div>
+                        </div>
+                    </div>
+                </h6>
+                <div class="col-auto row offset-1 ">{filteredTerms.map((post) => <Badge variant="secondary">{post.name}{' '}</Badge>)}</div>
+            </div>
+        </li >
+    );
 }
+

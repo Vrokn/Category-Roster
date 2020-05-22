@@ -1,124 +1,145 @@
 import React from 'react';
-import Header from "./components/navbar";
-import Movie from './components/Movie'
-import MoviePage from './components/moviePage'
-
 import './App.css';
+import Header from "./components/navbar";
+import Movie from './components/Movie';
+import MoviePage from './components/moviePage';
+
 import { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Router, Route, browserHistory } from 'react-router';
-import { Switch, Redirect, Link } from 'react-router-dom';
-//const axios = require('axios');
+
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.apikey = '9ebb3ffadcb7802418b60d473c655910';
-    this.base = 'https://api.themoviedb.org/3/';
-    this.imagebase = 'https://image.tmdb.org/t/p/w500/';
-    this.state = {
-      genres: [],
-      images: [],
-      list: [],
-      filteredList: [],
-      searchFilter: ''
+    constructor(props) {
+        super(props)
+        this.apikey = '9ebb3ffadcb7802418b60d473c655910';
+        this.base = 'https://api.themoviedb.org/3/';
+        this.imagebase = 'https://image.tmdb.org/t/p/original/';
+        this.state = {
+            genres: [],
+            list: [],
+            images: [],
+            selectedMovie: {},
+        };
+    }
+    componentDidMount() {
+
+        fetch(`${this.base}movie/popular?api_key=${this.apikey}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            const newList = data.results.map(item => ({
+                watched: false,
+                favorite: false,
+                queue: false,
+                ...item
+            }))
+            this.setState({
+                list: newList
+            })
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        fetch(`${this.base}genre/movie/list?api_key=${this.apikey}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            this.setState({ genres: data.genres })
+        }).catch(function (error) {
+            console.log(error);
+        });
+
     };
-  }
 
-  componentDidMount() {
-    fetch(`${this.base}movie/popular?api_key=${this.apikey}`).then((response) => {
-      return response.json();
-    }).then((data) => {
-      this.setState({ list: data.results })
-    }).catch(function (error) {
-      console.log(error);
-    });
-    fetch(`${this.base}genre/movie/list?api_key=${this.apikey}`).then((response) => {
-      return response.json();
-    }).then((data) => {
-      this.setState({ genres: data.genres })
-    }).catch(function (error) {
-      console.log(error);
-    });
-  };
+    updateMovieSearch = (value) => {
+        fetch(`${this.base}search/movie?api_key=${this.apikey}&query=${value}&include_adult=false`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            let MovieSearched = data.results
+            this.setState({ list: MovieSearched })
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 
-  updateMovieSearch = (value) => {
-    fetch(`${this.base}search/movie?api_key=${this.apikey}&query=${value}&include_adult=false`).then((response) => {
-      return response.json();
-    }).then((data) => {
-      let MovieSearched = data.results
-      this.setState({ list: MovieSearched })
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
-  getMovieImages = (id) => {
-    fetch(`${this.base}movie/${id}/images?api_key=${this.apikey}`).then((response) => {
-      return response.json();
-    }).then((data) => {
-      let imagesFound = data.backdrops
-      this.setState({ images: imagesFound })
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
+    watchedMovie = (id) => {
 
-  updateSearch = (value) => {
-    let moviesList = this.state.list;
-    let filtered = moviesList.filter((post) => {
-      return !value || post.title.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    })
-    this.setState({ searchFilter: value, filteredList: filtered })
-  }
+    }
+    favoriteMovie = (id) => {
+
+    }
+    queueMovie = (id) => {
+
+    }
+    selectMovie = (id) => {
+        fetch(`${this.base}movie/${id}/images?api_key=${this.apikey}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            let imagesFound = data.backdrops
+            this.setState({ images: imagesFound })
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        fetch(`${this.base}movie/${id}?api_key=${this.apikey}`).then((response) => {
+            return response.json();
+        }).then((data) => {
+            let movieDetails = data
+            this.setState({
+                selectedMovie: {
+                    watched: false,
+                    favorite: false,
+                    queue: false,
+                    ...movieDetails,
+                }
+            })
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
 
 
-  render() {
-    let moviesList = this.state.list;
-    const { state, props, imagebase } = this;
-    const { genres, list, watched, favorite, queue, images} = state;
-    const { title, poster_path, genre_ids } = props
+    render() {
+        const { imagebase, state, queueMovie, favoriteMovie, watchedMovie, selectMovie } = this;
+        const { list, genres, images, selectedMovie, } = state;
 
-    let filteredTerms = genres.filter((data) => {
-      return genre_ids.includes(data.id)
-    })
-    let imagesList = images.filter((data) => {
-      return data.file_path
-    })
-    return (
-      <div className="App">
-        <Header onChange={this.updateMovieSearch} />
-        <div>
-          <ul>
-            {moviesList.map(item =>
-              <Movie key={item.id} title={item.title} poster_path={item.poster_path} imagebase={imagebase} {...item} />
-            )}
-          </ul>
-        </div>
-        <div>
-          <MoviePage title={title} genres={filteredTerms} score={list.score} poster_path={poster_path} imagebase={imagebase}
-            queue={queue} favorite={favorite} watched={watched} overview={list.overview}
-            imagesList={imagesList} /></div>}
-      </div>
-    );
-  }
+
+        return (
+            <div className="App">
+                <Header onChange={this.updateMovieSearch} />
+                <div>
+                    <ul>
+                        {list.map(item =>
+                            <Movie
+                                key={item.id}
+                                id={item.id}
+                                genre_ids={item.genre_ids}
+                                watched={item.watched}
+                                favorite={item.favorite}
+                                queue={item.queue}
+                                title={item.title}
+                                poster_path={item.poster_path}
+                                genres={genres}
+                                selectMovie={selectMovie}
+                                onWatchedClick={watchedMovie}
+                                onFavoriteClick={favoriteMovie}
+                                onQueueClick={queueMovie}
+                                imagebase={imagebase}
+                            />
+                        )}
+                    </ul>
+                </div>
+                <div>
+                    <MoviePage
+                        selectedMovie={selectedMovie}
+                        imagebase={imagebase}
+                        imagesList={images}
+                        onWatchedClick={watchedMovie}
+                        onFavoriteClick={favoriteMovie}
+                        onQueueClick={queueMovie}
+                    />
+                </div>
+            </div >
+        )
+    }
 }
 
 export default App;
-
-export const Page1 = (props) => {
-  return (
-    <h1> 1</h1>
-  )
-}
-
-export const Page2 = (props) => {
-  return (
-    <h1> 2</h1>
-  )
-}
-
-export const NotFound = (props) => {
-  return (
-    <h1> no </h1>
-  )
-}
