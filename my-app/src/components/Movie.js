@@ -9,14 +9,14 @@ export default function Movie({ title, imagebase, poster_path, genre_ids, id, on
     })
     return (
         <li onClick={() => selectMovie(id)}>
-            <a href={`#${title}`}><img src={poster_path ? `${imagebase}${poster_path}` : 'https://es.zenit.org/wp-content/uploads/2018/05/no-image-icon.png'}
+            <a href={`/${id}`}><img src={poster_path ? `${imagebase}${poster_path}` : 'https://es.zenit.org/wp-content/uploads/2018/05/no-image-icon.png'}
                 alt={title} />
             </a>
             <div class="container">
                 <h6>
                     <div class="row">
                         <div class="col">
-                            <a href={`#${title}`}>{title}</a>
+                            <a href={`/${id}`}>{title}</a>
                         </div>
                         <div class="col col-lg-auto row">
                             <div onClick={() => onWatchedClick({ watched: !watched })}>{watched ? icons.eyeFill : icons.eye}</div>

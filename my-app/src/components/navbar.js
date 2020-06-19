@@ -5,19 +5,20 @@ export default function Header({ onChange }) {
 
     return (
         <Navbar bg="dark" expand="lg" variant="dark">
-            <Navbar.Brand href="#home">Movie Roster</Navbar.Brand>
+            <Navbar.Brand href="/">Movie Roster</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
+                    <Nav.Link href="/">Home</Nav.Link>
                     <NavDropdown title="Discover" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#Popular">Popular</NavDropdown.Item>
-                        <NavDropdown.Item href="#Trending">Trending</NavDropdown.Item>
+                        <NavDropdown.Item href="/Popular">Popular</NavDropdown.Item>
+                        <NavDropdown.Item href="/Trending">Trending</NavDropdown.Item>
+                        <NavDropdown.Item href="/topRated">Top Rated</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Your lists" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#Favorites">Favorites</NavDropdown.Item>
-                        <NavDropdown.Item href="#Watched">Watched</NavDropdown.Item>
-                        <NavDropdown.Item href="#Watch later">Watch later</NavDropdown.Item>
+                        <NavDropdown.Item href="Favorites">Favorites</NavDropdown.Item>
+                        <NavDropdown.Item href="Watched">Watched</NavDropdown.Item>
+                        <NavDropdown.Item href="Watch later">Watch later</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Form inline>
