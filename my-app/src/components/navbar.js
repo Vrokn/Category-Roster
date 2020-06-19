@@ -16,9 +16,9 @@ export default function Header({ onChange }) {
                         <NavDropdown.Item href="/topRated">Top Rated</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Your lists" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="Favorites">Favorites</NavDropdown.Item>
-                        <NavDropdown.Item href="Watched">Watched</NavDropdown.Item>
-                        <NavDropdown.Item href="Watch later">Watch later</NavDropdown.Item>
+                        <NavDropdown.Item href="/Favorites">Favorites</NavDropdown.Item>
+                        <NavDropdown.Item href="/Watched">Watched</NavDropdown.Item>
+                        <NavDropdown.Item href="/Watch later">Watch later</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Form inline>
