@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 import './App.css';
 import Header from "./components/navbar";
 import Movie from './components/Movie';
@@ -142,7 +142,7 @@ class App extends Component {
                 <div className="App">
                     <Header onChange={this.updateMovieSearch} />
                     <Switch>
-                        <Route path={`/MoviePage/:id`}>
+                        <Route path={`/MoviePage/:id`}  >
                             <div>
                                 <MoviePage
                                     selectedMovie={selectedMovie}
