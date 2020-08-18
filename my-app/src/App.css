@@ -1,10 +1,14 @@
 .App {
   text-align: center;
+  font-family: 'Julius Sans One', sans-serif;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255,255,255,.5);
+  font-size: 1.5em;
+}
+.brand {
+  font-family: 'Permanent Marker', cursive !important;
+  font-size: 0.8em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -81,15 +85,17 @@ h6 a {
 svg {
   padding: 2px;
 }
-.carousel{
-  background-size: cover ;
+
+.carousel {
+  background-size: cover;
 }
+
 .jumbotron {
   background-color: rgb(17, 17, 17) !important;
   color: rgb(216, 216, 216) !important;
 }
 
-#slider{
-  background-size: cover !important ;
+#slider {
+  background-size: cover !important;
   width: 100% !important;
 }
