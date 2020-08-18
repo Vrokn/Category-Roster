@@ -16,7 +16,7 @@ export default function Movie({ title, imagebase, poster_path, genre_ids, id, on
                 <h6>
                     <div class="row">
                         <div class="col">
-                            <a href={`/:${id}`}>{title}</a>
+                            <a href={`/?id=${id}`}>{title}</a>
                         </div>
                         <div class="col col-lg-auto row">
                             <div onClick={() => onWatchedClick({ watched: !watched })}>{watched ? icons.eyeFill : icons.eye}</div>
