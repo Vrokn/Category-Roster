@@ -8,7 +8,7 @@
 }
 .brand {
   font-family: 'Permanent Marker', cursive !important;
-  font-size: 0.8em;
+  font-size: 1rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
